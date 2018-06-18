@@ -1,5 +1,7 @@
 from django.test import TestCase
 from django.urls import resolve
+from django.http import HttpRequest
+
 from lists.views import home_page
 
 # functional test from users's persepctive
@@ -21,3 +23,10 @@ class HomePageTest(TestCase):
 		found = resolve('/')
 		self.assertEqual(found.func, home_page)
 		
+	def test_home_page_returns_correct_html(self):
+		request = HttpRequest() # what Django will see when a user's browser asks for a page
+		response = home_page(request)
+		html = response.content.decode('utf8') # gets raw bytes then converts them to HTML
+		self.assertTrue(html.startswith('<html>'))
+		self.assertIn('<title>To-Do lists</title>', html)
+		self.assertTrue(html.endswith('</html>'))

@@ -34,3 +34,10 @@ class HomePageTest(TestCase):
 		# self.assertTrue(html.endswith('</html>'))
 
 		self.assertTemplateUsed(response, 'home.html') # checks which template (we want 'home.html') was used to render a response
+	def test_can_save_a_POST_request(self):
+		response = self.client.post('/', data={'item_text': 'A new list item'}) # to do a POST, we call self.client.post. Takes data argument
+		# containing the form data we want to send.
+		self.assertIn('A new list item', response.content.decode())
+		self.assertTemplateUsed(response, 'home.html')
+
+		

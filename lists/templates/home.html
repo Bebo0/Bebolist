@@ -7,7 +7,11 @@ To get our browser to send a POST request, we need to do two things:
 
 {{ new_item_text }}: template variable. new_item_text will be the variable name for the
 user input we display in the template.
+
+{% for items in items % } iterates through a list
 -->
+
+
 
 
 <html>
@@ -22,7 +26,10 @@ user input we display in the template.
 		</form>
 
 		<table id="id_list_table">
-			<tr><td>1: {{ new_item_text }}</td></tr>
+			{% for item in items %}
+				<tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
+				<!-- <tr><td>1: {{ new_item_text }}</td></tr> -->
+			{% endfor %}
 		</table>
 	</body>
 

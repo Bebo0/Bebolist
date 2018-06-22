@@ -5,6 +5,8 @@ from django.db import models
 # Classes that inherit from models.Model map to tables in the database
 # They generate an "id" attribute, which will be a primary key column in the database
 # Whenever something is added in this fail, have to run python manage.py makemigrations
+# To create a real database, need to run python manage.py migrate. Can also be used to write over new database completely
+
 class Item(models.Model):
 	text = models.TextField(default='') # Django has other field types like IntegerField, CharField, DateField and so on. 
 	#https://docs.djangoproject.com/en/1.11/ref/models/fields/

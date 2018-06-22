@@ -3,6 +3,7 @@ from django.urls import resolve
 from django.http import HttpRequest
 
 from lists.views import home_page
+from lists.models import Item
 
 # functional test from users's persepctive
 # unittest from programmer's perspective
@@ -16,6 +17,7 @@ from lists.views import home_page
 # 2) Django uses some rules to decide which view function should deal with the
 # request (referred to as resolving the URL)
 # 3) The view function processes the request and returns an HTTP response
+		
 
 class HomePageTest(TestCase):
 
@@ -40,4 +42,22 @@ class HomePageTest(TestCase):
 		self.assertIn('A new list item', response.content.decode())
 		self.assertTemplateUsed(response, 'home.html')
 
+class ItemNodelTest(TestCase):
+
+	def test_saving_and_retrieving_items(self):
+		first_item = Item()
+		first_item.text = 'The first (ever) list item'
+		first_item.save()
+
+		second_item = Item()
+		second_item.text = 'Item the second'
+		second_item.save()
+
+		save_items = Item.objects.all() # QuerySet which is a list-like
+		self.assertEqual(save_items.count(), 2)
+
+		first_saved_item = save_items[0]
+		second_saved_item = save_items[1]
+		self.assertEqual(first_saved_item.text, 'The first (ever) list item')
+		self.assertEqual(second_saved_item.text, 'Item the second')
 		

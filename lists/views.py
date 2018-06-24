@@ -10,10 +10,10 @@ from lists.models import Item
 def home_page(request):
 	if request.method == 'POST':
 		Item.objects.create(text=request.POST['item_text']) # creates a new Item, without needing to call .save()
-		return redirect('/') # https://en.wikipedia.org/wiki/Post/Redirect/Get
-	items = Item.objects.all()
+		return redirect('/lists/the-only-list-in-the-world') # https://en.wikipedia.org/wiki/Post/Redirect/Get
+	
 
-	return render(request, 'home.html', {'items': items})
+	return render(request, 'home.html')
 		
 	# return render(request, 'home.html', {
 	# 	'new_item_text': new_item_text  # render takes a dictionary as its third argument, which maps template variable names
@@ -22,5 +22,11 @@ def home_page(request):
 	# 	})
 	# return render(request, 'home.html') # Django searches all app's directories to find a file named
 										# templates then builds an HttpResonse based on content of file
+
+def view_list(request):
+
+	items = Item.objects.all()
+
+	return render(request, 'list.html', {'items': items})
 
 

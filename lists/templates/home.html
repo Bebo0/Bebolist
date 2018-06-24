@@ -19,8 +19,11 @@ user input we display in the template.
 		<title>To-Do lists</title>
 	</head>
 	<body>
-		<h1>Your To-Do list</h1>
-		<form method="POST"> 
+		<h1>Start a new To-Do list</h1>
+		<form method="POST" action="/"> 
+			<!-- if we don't explicitly specify a URL using the action attribute, the browser
+			will send the POST data back to the same URL it's currently on. Meaning we can't
+			use this template for different view functions -->
 			<input name="item_text" id="id_new_item" placeholder="Enter a to-do item" />
 			{% csrf_token %} 
 		</form>

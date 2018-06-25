@@ -1,0 +1,39 @@
+<!-- 
+To get our browser to send a POST request, we need to do two things:
+1) Give the <input> element a name= attribute.
+2) Wrap it in a <form> tag with method="POST". 
+
+{% csrf_token %}: Django protects against CSRF by placing an auto generated token into each generated form, to be able to identify POST requests as having come from the original site.
+
+{{ new_item_text }}: template variable. new_item_text will be the variable name for the
+user input we display in the template.
+
+{% for items in items % } iterates through a list
+-->
+
+
+
+
+<html>
+	<head>
+		<title>To-Do lists</title>
+	</head>
+	<body>
+		<h1>Your To-Do list</h1>
+		<form method="POST" action="/lists/new"> 
+			<!-- if we don't explicitly specify a URL using the action attribute, the browser
+			will send the POST data back to the same URL it's currently on. Meaning we can't
+			use this template for different view functions -->
+			<input name="item_text" id="id_new_item" placeholder="Enter a to-do item" />
+			{% csrf_token %} 
+		</form>
+
+		<table id="id_list_table">
+			{% for item in items %}
+				<tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
+				<!-- <tr><td>1: {{ new_item_text }}</td></tr> -->
+			{% endfor %}
+		</table>
+	</body>
+
+</html>

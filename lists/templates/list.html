@@ -9,6 +9,8 @@ To get our browser to send a POST request, we need to do two things:
 user input we display in the template.
 
 {% for items in items % } iterates through a list
+{for item in list.item_set.all} called a reverse lookup. The ORM lets you look up an object's related items from a different table.
+
 -->
 
 
@@ -20,7 +22,7 @@ user input we display in the template.
 	</head>
 	<body>
 		<h1>Your To-Do list</h1>
-		<form method="POST" action="/lists/new"> 
+		<form method="POST" action="/lists/{{ list.id }}/add_item"> 
 			<!-- if we don't explicitly specify a URL using the action attribute, the browser
 			will send the POST data back to the same URL it's currently on. Meaning we can't
 			use this template for different view functions -->
@@ -29,7 +31,7 @@ user input we display in the template.
 		</form>
 
 		<table id="id_list_table">
-			{% for item in items %}
+			{% for item in list.item_set.all %}
 				<tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
 				<!-- <tr><td>1: {{ new_item_text }}</td></tr> -->
 			{% endfor %}

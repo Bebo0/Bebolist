@@ -5,7 +5,8 @@ from django.db import models
 # Classes that inherit from models.Model map to tables in the database
 # They generate an "id" attribute, which will be a primary key column in the database
 # Whenever something is added in this file, have to run python manage.py makemigrations
-# To create a real database, need to run python manage.py migrate. Can also be used to write over new database completely
+# To create a real database, need to run python manage.py migrate.
+# To clean DB, run rm db.sqlite3 then python manage.py migrate --noinput
 
 class List(models.Model):
 	pass

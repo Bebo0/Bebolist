@@ -1,7 +1,5 @@
 """superlists URL Configuration
 
-## This file is meants for URLs that apply to the entire site.
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.11/topics/http/urls/
 Examples:
@@ -16,15 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from lists import views as list_views
-from lists import urls as list_urls
+from lists import views
 
 # r'^$ is just the empty string aka '/' aka the root page
 urlpatterns = [
-    url(r'^$', views.home_page, name = 'home'),
-    url(r'^lists/', include(list_urls))
-    # url(r'^lists/new$', views.new_list, name='new_list'),
-    # url(r'^lists/(\d+)/$', views.view_list, name='view_list'), # the (.+) will match any characters up to the following /
-    # # Also, now we are passing an argument to the view function view_list()
-    # url(r'^lists/(\d+)/add_item$', views.add_item, name='add_item'),
+    url(r'^lists/new$', views.new_list, name='new_list'),
+    url(r'^lists/(\d+)/$', views.view_list, name='view_list'), # the (.+) will match any characters up to the following /
+    # Also, now we are passing an argument to the view function view_list()
+    url(r'^lists/(\d+)/add_item$', views.add_item, name='add_item'),
 ]

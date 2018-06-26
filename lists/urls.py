@@ -18,8 +18,8 @@ from lists import views
 
 # r'^$ is just the empty string aka '/' aka the root page
 urlpatterns = [
-    url(r'^lists/new$', views.new_list, name='new_list'),
-    url(r'^lists/(\d+)/$', views.view_list, name='view_list'), # the (.+) will match any characters up to the following /
+    url(r'^new$', views.new_list, name='new_list'),
+    url(r'^(\d+)/$', views.view_list, name='view_list'), # the (.+) will match any characters up to the following /
     # Also, now we are passing an argument to the view function view_list()
-    url(r'^lists/(\d+)/add_item$', views.add_item, name='add_item'),
+    url(r'^(\d+)/add_item$', views.add_item, name='add_item'),
 ]

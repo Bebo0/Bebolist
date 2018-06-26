@@ -15,13 +15,13 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import include, url
 from lists import views as list_views
 from lists import urls as list_urls
 
 # r'^$ is just the empty string aka '/' aka the root page
 urlpatterns = [
-    url(r'^$', views.home_page, name = 'home'),
+    url(r'^$', list_views.home_page, name = 'home'),
     url(r'^lists/', include(list_urls))
     # url(r'^lists/new$', views.new_list, name='new_list'),
     # url(r'^lists/(\d+)/$', views.view_list, name='view_list'), # the (.+) will match any characters up to the following /

@@ -1,41 +1,14 @@
-<!-- 
-To get our browser to send a POST request, we need to do two things:
-1) Give the <input> element a name= attribute.
-2) Wrap it in a <form> tag with method="POST". 
+{% extends 'base.html' %}
 
-{% csrf_token %}: Django protects against CSRF by placing an auto generated token into each generated form, to be able to identify POST requests as having come from the original site.
+{% block header_text %}Your To-Do list{% endblock %}
 
-{{ new_item_text }}: template variable. new_item_text will be the variable name for the
-user input we display in the template.
+{% block form_action %}/lists/{{ list.id }}/add_item{% endblock %}
 
-{% for items in items % } iterates through a list
-{for item in list.item_set.all} called a reverse lookup. The ORM lets you look up an object's related items from a different table.
+{% block table %}
+	<table id="id_list_table">
+		{% for item in list.item_set.all %}
+			<tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
+		{% endfor %}
+	</table>
 
--->
-
-
-
-
-<html>
-	<head>
-		<title>To-Do lists</title>
-	</head>
-	<body>
-		<h1>Your To-Do list</h1>
-		<form method="POST" action="/lists/{{ list.id }}/add_item"> 
-			<!-- if we don't explicitly specify a URL using the action attribute, the browser
-			will send the POST data back to the same URL it's currently on. Meaning we can't
-			use this template for different view functions -->
-			<input name="item_text" id="id_new_item" placeholder="Enter a to-do item" />
-			{% csrf_token %} 
-		</form>
-
-		<table id="id_list_table">
-			{% for item in list.item_set.all %}
-				<tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
-				<!-- <tr><td>1: {{ new_item_text }}</td></tr> -->
-			{% endfor %}
-		</table>
-	</body>
-
-</html>
+{% endblock %}

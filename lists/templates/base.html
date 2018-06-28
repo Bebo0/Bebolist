@@ -1,15 +1,49 @@
-<html>
+<!-- Django and any web server needs to know 2 things to deal with static files:
+1) How to tell when a URL request is for a static file, as opposed to for some HTML that’s going to be served via a view function
+2) Where to find the static file the user wants
+
+For 1), Django let's us define a URL "prefix" to say that any URLs which start with that prefix (i.e /static/) should be treated as a static file
+
+For 2), we can rely on Django to find the actual static files on disk. It looks in any subfolder of one of our apps called 'static'
+
+Can look through Bootstrap's documentation here: http://getbootstrap.com/docs/4.1/getting-started/introduction/-->
+
+<!DOCTYPE html>
+<html lang="en">
+
 	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>To-Do lists</title>
+		<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/static/base.css" rel="stylesheet">
 	</head>
 
 	<body>
-		<h1>{% block header_text %}{% endblock %}</h1>
-		<form method="POST" action="{% block form_action %}{% endblock %}"> 
-			<input name="item_text" id="id_new_item" placeholder="Enter a to-do item" />
-			{% csrf_token %} 
-		</form>	
-		{% block table %}
-		{% endblock %}
+		<div class="container">
+
+			<div class="row">
+				<div class = "col-md-6 col-md-offset-3 jumbotron">
+					<div class="text-center">
+
+
+						<h1>{% block header_text %}{% endblock %}</h1>
+						<form method="POST" action="{% block form_action %}{% endblock %}"> 
+							<input name="item_text" id="id_new_item" class="form-control input-lg" placeholder="Enter a to-do item" />
+							{% csrf_token %} 
+						</form>	
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					{% block table %}
+					{% endblock %}
+				</div>
+			</div>
+
+		</div>
 	</body>
 </html>

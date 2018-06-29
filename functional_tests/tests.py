@@ -8,6 +8,8 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import time
 import unittest
 
+import os
+
 MAX_WAIT = 10
 
 # class NewVisitorTest(LiveServerTestCase):
@@ -15,6 +17,9 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
 	def setUp(self):
 		self.browser = webdriver.Firefox()
+		staging_server = os.environ.get('STAGING_SERVER') # using an environment variable called STAGING_SERVER
+		if staging_server:
+			self.live_server_url = 'http://' + staging_server # We change the test server in LiveServerTestCase to point to our real server
 
 	def tearDown(self):
 		self.browser.quit()

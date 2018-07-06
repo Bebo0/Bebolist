@@ -24,6 +24,7 @@ eg, on Ubuntu:
 
 * see gunicorn-systemd.template.service
 * replace DOMAIN with, e.g., staging.my-domain.com
+* replace SERVER_USER
 
 ## Folder structure:
 

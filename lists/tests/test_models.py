@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import resolve
 from django.http import HttpRequest
+from django.core.exceptions import ValidationError
 
 from lists.views import home_page
 from lists.models import Item, List
@@ -14,7 +15,7 @@ from lists.models import Item, List
 # URL on our site. Django's workflow is like this:
 #
 # 1) An HTTP request comes in for a particular URL
-# 2) Django uses some rules to decide which view function should deal with the
+# 2) Django uses some ruleps to decide which view function should deal with the
 # request (referred to as resolving the URL)
 # 3) The view function processes the request and returns an HTTP response
 
@@ -46,6 +47,21 @@ class ListAndItemModelTest(TestCase):
 		self.assertEqual(first_saved_item.list, list_)
 		self.assertEqual(second_saved_item.text, 'Item the second')
 		self.assertEqual(second_saved_item.list, list_)
+
+	def test_cannot_save_empty_list_items(self):
+		list_ = List.objects.create()
+		item = Item(list=list_, text='')
+		with self.assertRaises(ValidationError): # the 'with' wraps a block of code with some kind of setup, cleanup, or error-handling code.
+			item.save()
+			item.full_clean() # runs full database validation
+
+		# alternatively, we could've written:
+		# try:
+		# 	item.save()
+		# 	self.fail('The save should have raised an exception')
+		# except ValidationError:
+		# 	pass
+
 
 	# def test_only_saves_items_when_necessary(self):
 	# 	self.client.get('/')

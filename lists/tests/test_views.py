@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import resolve
 from django.http import HttpRequest
+from django.utils.html import escape
 
 from lists.views import home_page
 from lists.models import Item, List
@@ -102,6 +103,13 @@ class NewListTest(TestCase):
 		self.assertRedirects(response, f'/lists/{new_list.id}/')
 		# self.assertEqual(response.status_code, 302) # We want to redirect the user back to the home page. the HTTP redirect has sc 302.
 		# self.assertEqual(response['location'], '/lists/the-only-list-in-the-world')
+
+	def test_validation_errors_are_sent_back_to_home_page_template(self):
+		response = self.client.post('/lists/new', data={'item_text': ''})
+		self.assertEqual(response.status_code, 200)
+		self.assertTemplateUsed(response, 'home.html')
+		expected_error = escape("You can't have an empty list item") # we use the escape function b/c apostrophes can look weird in HTML
+		self.assertContains(response, expected_error)
 
 class NewItemTest(TestCase):
 

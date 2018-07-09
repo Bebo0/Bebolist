@@ -21,12 +21,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # it's good practice to define config settings using environment variables (os.environ allows us to access them)
 if 'DJANGO_DEBUG_FALSE' in os.environ:
-    
-    # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+    print(os.environ['DJANGO_DEBUG_FALSE'])
 
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
+
+    # SECURITY WARNING: keep the secret key used in production secret!
+    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+
 
     ALLOWED_HOSTS = [os.environ['SITENAME']]
 else:

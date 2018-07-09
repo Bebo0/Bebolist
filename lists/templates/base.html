@@ -6,7 +6,12 @@ For 1), Django let's us define a URL "prefix" to say that any URLs which start w
 
 For 2), we can rely on Django to find the actual static files on disk. It looks in any subfolder of one of our apps called 'static'
 
+iferror block of code enforces our model validation and brings it up
+so the user can see them. It checks whether a template is passed with an error
+variable, and if so we display it next to the form.
+
 Can look through Bootstrap's documentation here: http://getbootstrap.com/docs/4.1/getting-started/introduction/-->
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +38,11 @@ Can look through Bootstrap's documentation here: http://getbootstrap.com/docs/4.
 						<form method="POST" action="{% block form_action %}{% endblock %}"> 
 							<input name="item_text" id="id_new_item" class="form-control" placeholder="Enter a to-do item" />
 							{% csrf_token %} 
+							{% if error %}
+								<div class="form-group has-error">
+									<span class = "help-block">{{ error }}</span>
+								</div>
+							{% endif %}
 						</form>	
 					</div>
 				</div>

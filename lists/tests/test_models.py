@@ -62,7 +62,13 @@ class ListAndItemModelTest(TestCase):
 		# except ValidationError:
 		# 	pass
 
+	def test_get_absolute(self):
+		list_ = List.objects.create()
+		self.assertEqual(list_.get_absolute_url(), f'/lists/{list_.id}/')
+
+
 
 	# def test_only_saves_items_when_necessary(self):
 	# 	self.client.get('/')
 	# 	self.assertEqual(Item.objects.count(), 0)
+

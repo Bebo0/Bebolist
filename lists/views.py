@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.core.exceptions import ValidationError
 
+from lists.forms import ItemForm
 from lists.models import Item, List
 
 # We need to officially register our 'lists' app with Django. Therefore, need to add 'lists' to
@@ -16,7 +17,7 @@ def home_page(request):
 	# 	return redirect('/lists/the-only-list-in-the-world') # https://en.wikipedia.org/wiki/Post/Redirect/Get
 	
 
-	return render(request, 'home.html')
+	return render(request, 'home.html', {'form': ItemForm()})
 		
 	# return render(request, 'home.html', {
 	# 	'new_item_text': new_item_text  # render takes a dictionary as its third argument, which maps template variable names

@@ -3,6 +3,7 @@ from django.urls import resolve
 from django.http import HttpRequest
 from django.utils.html import escape
 
+from lists.forms import ItemForm
 from lists.views import home_page
 from lists.models import Item, List
 
@@ -37,6 +38,10 @@ class HomePageTest(TestCase):
 		# self.assertTrue(html.endswith('</html>'))
 
 		self.assertTemplateUsed(response, 'home.html') # checks which template (we want 'home.html') was used to render a response
+	
+	def test_home_page_uses_item_form(self):
+		response = self.client.get('/')
+		self.assertIsInstance(response.context['form'], ItemForm) # assertIsInstance checks that our form is of the correct class
 	# def test_can_save_a_POST_request(self):
 	# 	response = self.client.post('/', data={'item_text': 'A new list item'}) # to do a POST, we call self.client.post. Takes data argument
 	# 	# containing the form data we want to send.

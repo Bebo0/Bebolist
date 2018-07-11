@@ -36,7 +36,7 @@ Can look through Bootstrap's documentation here: http://getbootstrap.com/docs/4.
 
 						<h1 class="display-3">{% block header_text %}{% endblock %}</h1>
 						<form method="POST" action="{% block form_action %}{% endblock %}"> 
-							<input name="item_text" id="id_new_item" class="form-control" placeholder="Enter a to-do item" />
+							{{ form.text }}
 							{% csrf_token %} 
 							{% if error %}
 								<div class="form-group has-error">

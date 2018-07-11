@@ -7,6 +7,8 @@ from lists.models import Item, List
 # We need to officially register our 'lists' app with Django. Therefore, need to add 'lists' to
 # INSTALLED_APPS in superlists/settings.py
 
+# A messy views.py is bad. Try to shift the implementation to something like a form
+
 # Create your views here.
 def home_page(request):
 	# if request.method == 'POST':

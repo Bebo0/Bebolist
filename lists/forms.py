@@ -8,6 +8,9 @@ EMPTY_ITEM_ERROR = "You can't have an empty list item"
 # and error messages, and some can save data to the database.
 
 class ItemForm(forms.models.ModelForm): # ModelForms can do all sorts of smart stuff. Link: https://docs.djangoproject.com/en/1.11/topics/forms/modelforms/
+	def save(self, for_list):
+		self.instance.list = for_list # The .instance attribute on a form represents the database object that is being modified or created
+		return super().save()
 
 	class Meta: # In Meta we specify which model the form is for, and which fields we cant it to use
 		model = Item

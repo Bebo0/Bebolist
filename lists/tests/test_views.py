@@ -99,7 +99,7 @@ class ListViewTest(TestCase):
 
 		self.client.post(
 		    f'/lists/{correct_list.id}/',
-		    data={'item_text': 'A new item for an existing list'}
+		    data={'text': 'A new item for an existing list'}
 		)
 
 		self.assertEqual(Item.objects.count(), 1)
@@ -113,13 +113,13 @@ class ListViewTest(TestCase):
 
 		response = self.client.post(
 		    f'/lists/{correct_list.id}/',
-		    data={'item_text': 'A new item for an existing list'}
+		    data={'text': 'A new item for an existing list'}
 		)
 
 		self.assertRedirects(response, f'/lists/{correct_list.id}/')
 
 	def test_invalid_list_items_arent_saved(self):
-		self.client.post('/lists/new', data={'item_text': ''})
+		self.client.post('/lists/new', data={'text': ''})
 		self.assertEqual(List.objects.count(), 0)
 		self.assertEqual(Item.objects.count(), 0)
 
@@ -165,7 +165,7 @@ class ListViewTest(TestCase):
 class NewListTest(TestCase):
 
 	def test_can_save_a_POST_request(self):
-		response = self.client.post('/lists/new', data={'item_text': 'A new list item'}) # to do a POST, we call self.client.post. Takes data argument
+		response = self.client.post('/lists/new', data={'text': 'A new list item'}) # to do a POST, we call self.client.post. Takes data argument
 		# containing the form data we want to send.
 		self.assertEqual(Item.objects.count(), 1)
 		new_item = Item.objects.first() # same as objects.all()[0]

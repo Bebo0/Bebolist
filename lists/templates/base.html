@@ -10,6 +10,11 @@ iferror block of code enforces our model validation and brings it up
 so the user can see them. It checks whether a template is passed with an error
 variable, and if so we display it next to the form.
 
+form.errors contains a list of all the errors for the form.
+form.text.errors is a list of just the errors for the text field.
+
+
+
 Can look through Bootstrap's documentation here: http://getbootstrap.com/docs/4.1/getting-started/introduction/-->
 
 
@@ -38,9 +43,9 @@ Can look through Bootstrap's documentation here: http://getbootstrap.com/docs/4.
 						<form method="POST" action="{% block form_action %}{% endblock %}"> 
 							{{ form.text }}
 							{% csrf_token %} 
-							{% if error %}
+							{% if form.errors %}
 								<div class="form-group has-error">
-									<span class = "help-block">{{ error }}</span>
+									<span class = "help-block">{{ form.text.errors }}</span>
 								</div>
 							{% endif %}
 						</form>	

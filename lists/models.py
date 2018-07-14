@@ -22,5 +22,8 @@ class Item(models.Model):
 	#https://docs.djangoproject.com/en/1.11/ref/models/fields/
 	list = models.ForeignKey(List, default=None)
 
+	class Meta:
+		unique_together = ('list', 'text')
+
 
 

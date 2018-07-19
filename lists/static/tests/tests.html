@@ -1,0 +1,47 @@
+<!-- We pull in qunit-2.6.1.js using the first <script> tag, then use
+the second one to write the main body of tests 
+
+qunit-fixtures acts like setUp and tearDown insofar that the page resets after
+every test -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JavaScript tests</title>
+  <link rel="stylesheet" href="qunit-2.6.1.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture">
+    <form>
+      <input name="text" />
+      <div class="has-error">Error.text</div>
+    </form>
+  </div>
+  <script src="../jquery-3.3.1.js"></script>
+  <script src="../list.js"></script>
+  <script src="qunit-2.6.1.js"></script>
+
+  <script>
+
+    QUnit.test("errors should be hidden on keypress", function (assert) {
+      // assert.equal($('.has-error') vbb .is(':visible'), true);
+      /// .trigger fires off a JS DOM event on the element(s). Triggered by a
+      /// keypress event, which is fired off by the browser whenever a user
+      /// types something into a particular input element.
+      initialize()
+      $('input[name="text"]').trigger('keypress');
+      //$('.has-error').hide();
+      assert.equal($('has-error').is(':visible'), false);
+    });
+
+    QUnit.test("errors aren't hidden if there is no keypress", function (assert) {
+      initialize()
+      assert.equal($('.has-error').is(':visible'), true);
+    });
+
+  </script>
+</body>
+</html>

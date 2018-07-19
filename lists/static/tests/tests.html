@@ -31,14 +31,14 @@ every test -->
       /// .trigger fires off a JS DOM event on the element(s). Triggered by a
       /// keypress event, which is fired off by the browser whenever a user
       /// types something into a particular input element.
-      initialize()
+      window.Superlists.initialize()
       $('input[name="text"]').trigger('keypress');
       //$('.has-error').hide();
       assert.equal($('has-error').is(':visible'), false);
     });
 
     QUnit.test("errors aren't hidden if there is no keypress", function (assert) {
-      initialize()
+      window.Superlists.initialize()
       assert.equal($('.has-error').is(':visible'), true);
     });
 

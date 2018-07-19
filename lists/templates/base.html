@@ -15,7 +15,11 @@ form.text.errors is a list of just the errors for the text field.
 
 
 
-Can look through Bootstrap's documentation here: http://getbootstrap.com/docs/4.1/getting-started/introduction/-->
+Can look through Bootstrap's documentation here: http://getbootstrap.com/docs/4.1/getting-started/introduction/
+
+It's good practice to put script loads at the end of your body HTML, as it
+means that the user doesn't have to wait for all your JS to load before they
+can see something on the page.-->
 
 
 <!DOCTYPE html>
@@ -32,6 +36,13 @@ Can look through Bootstrap's documentation here: http://getbootstrap.com/docs/4.
 	</head>
 
 	<body>
+		<script>
+			// the .ready allows us to specify a function to execute when the
+			// DOM is fully loaded.
+			$(document).ready(function () {
+				window.Superlists.initialize();
+			})
+		</script>
 		<div class="container">
 
 			<div class="row justify-content-md-center">
@@ -61,5 +72,8 @@ Can look through Bootstrap's documentation here: http://getbootstrap.com/docs/4.
 			</div>
 
 		</div>
+		<script src="/static/jquery-3.3.1.js"></script>
+		<script src="/static/list.js"></script>
+		<script> initialize() </script>
 	</body>
 </html>

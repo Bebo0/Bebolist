@@ -39,6 +39,17 @@ can see something on the page.-->
 
 		<div class="container">
 
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="container-fluid">
+					<a class="navbar-brand" href="/">Bebolist</a>
+					<form class="navbar-from navbar-right" method="POST" action="#">
+						<span>Enter email to login:</span>
+						<input class="form-control" type="text" name="email">
+						{% csrf_token %}
+					</form>
+				</div>
+			</nav>
+
 			<div class="row justify-content-md-center">
 				<div class = "col-md-8 jumbotron">
 					<div class="text-center">

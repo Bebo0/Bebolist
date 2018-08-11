@@ -18,13 +18,16 @@ Including another URLconf
 from django.conf.urls import include, url
 from lists import views as list_views
 from lists import urls as list_urls
+from accounts import urls as accounts_urls
 
 # r'^$ is just the empty string aka '/' aka the root page
 urlpatterns = [
     url(r'^$', list_views.home_page, name = 'home'),
-    url(r'^lists/', include(list_urls))
+    url(r'^lists/', include(list_urls)),
+
     # url(r'^lists/new$', views.new_list, name='new_list'),
     # url(r'^lists/(\d+)/$', views.view_list, name='view_list'), # the (.+) will match any characters up to the following /
     # # Also, now we are passing an argument to the view function view_list()
     # url(r'^lists/(\d+)/add_item$', views.add_item, name='add_item'),
+    url(r'^accounts/', include(accounts_urls)),
 ]

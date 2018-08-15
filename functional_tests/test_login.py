@@ -5,7 +5,7 @@ import re
 from .base import FunctionalTest # import base FT template
 
 TEST_EMAIL = 'edith@example.com'
-SUBJECT = 'Your login link for bebolist.com'
+SUBJECT = 'Your login link for Bebolist'
 
 class LoginTest(FunctionalTest):
 	def test_can_get_email_link_to_log_in(self):

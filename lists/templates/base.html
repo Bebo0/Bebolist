@@ -41,14 +41,21 @@ can see something on the page.-->
 
 			<nav class="navbar navbar-default" role="navigation">
 				<div class="container-fluid">
-					<a class="navbar-brand" href="/">bebolist</a>
-					<form class="navbar-form navbar-right" 
-					method="POST" 
-					action="{% url 'send_login_email' %}">
-						<span>Enter email to login:</span>
-						<input class="form-control" type="text" name="email">
-						{% csrf_token %}
-					</form>
+					<a class="navbar-brand" href="/">Bebolist</a>
+					{% if user.email %}
+						<ul class="nav navbar-nav navbar-right">
+							<li class="navbar-text">Logged in as {{ user.email }}</li>
+							<li><a href="#">Log out</a></li>
+						</ul>
+					{% else %}
+						<form class="navbar-form navbar-right" 
+						method="POST" 
+						action="{% url 'send_login_email' %}">
+							<span>Enter email to login:</span>
+							<input class="form-control" type="text" name="email">
+							{% csrf_token %}
+						</form>
+					{% endif %}
 				</div>
 			</nav>
 

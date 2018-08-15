@@ -4,9 +4,10 @@
 # Mocks often test how we do something rather than what happens. Could be bad
 
 from django.test import TestCase
-from unittest.mock import patch # Python has a built in library for mocking
+from unittest.mock import patch, call # Python has a built in library for mocking
 import accounts.views
 from accounts.models import Token
+from django.contrib import auth, messages
 
 class SendLoginEmailViewTest(TestCase):
 
@@ -72,8 +73,27 @@ class SendLoginEmailViewTest(TestCase):
 		(subject, body, from_email, to_list), kwargs = mock_send_mail.call_args
 		self.assertIn(expected_url, body)
 
-class LoginViewTest(TestCase):
+@patch('accounts.views.auth') # mocking a whole module, including all the functions within it
+class LoginViewTest(TestCase): # since patch is on the class level, every function needs to have a mock_auth argument
 
-	def test_redirects_to_home_page(self):
+	def test_redirects_to_home_page(self, mock_auth):
 		response = self.client.get('/accounts/login?token=abcd123')
 		self.assertRedirects(response, '/')
+	def test_call_authenticate_with_uid_from_get_request(self, mock_auth):
+		self.client.get('/accounts/login?token=abcd123')
+		self.assertEqual(
+			mock_auth.authenticate.call_args, 
+			call(uid='abcd123')) # instead of unpacking the call args, we use the call function
+			# for a neater way of saying what authenticate should have been called with
+	def test_calls_auth_login_with_user_if_there_is_one(self, mock_auth):
+		response = self.client.get('/accounts/login?token=abcd123')
+		self.assertEqual(
+			mock_auth.login.call_args, # This time, we examine auth.login
+			call(response.wsgi_request, mock_auth.authenticate.return_value) # We check that it's called
+			# with the request object that the view sees and the user object that the authenticate function returns
+			)
+
+	def test_does_not_login_if_user_is_not_authenticated(self, mock_auth):
+		mock_auth.authenticate.return_value = None
+		self.client.get('/f/login?token=abcd123')
+		self.assertEqual(mock_auth.login.called, False)

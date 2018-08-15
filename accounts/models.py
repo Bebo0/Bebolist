@@ -1,5 +1,8 @@
 from django.db import models
+from django.contrib import auth
 import uuid
+
+auth.signals.user_logged_in.disconnect(auth.models.update_last_login) # to prevent a weird Django error
 
 class User(models.Model):
 	email = models.EmailField(primary_key=True) # We only need this but Django complains about the underneath attributes

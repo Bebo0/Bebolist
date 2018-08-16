@@ -15,4 +15,4 @@ class User(models.Model):
 class Token(models.Model):
 	email = models.EmailField()
 	uid = models.CharField(default=uuid.uuid4, max_length=40) # Python comes with a module designed specifically
-	# for generating unique IDs called "uuid" for "universally unique id". Better than using random.
+	# for generating unique IDs called "uuid" for "universally unique id". Better than using random().

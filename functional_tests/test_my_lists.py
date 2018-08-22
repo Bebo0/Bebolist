@@ -17,13 +17,17 @@ given by django.contrib.auth.SESSION_KEY.
 class MyListsTest(FunctionalTest):
 
 	def create_pre_authenticated_session(self, email):
-
-		user = User.objects.create(email=email)
-		session = SessionStore()
-		session[SESSION_KEY] = user.pk # we create a session object in the db
-		# the session key is the primary key of the user object which is actually the user's email address
-		session[BACKEND_SESSION_KEY] = settings.AUTHENTICATION_BACKENDS[0]
-		session.save()
+		if self.staging_server:
+			session_key = create_session_on_server(self.staging_server, email)
+		else:
+			session_key = create_pre_authenticated_session(email)
+			
+		# user = User.objects.create(email=email)
+		# session = SessionStore()
+		# session[SESSION_KEY] = user.pk # we create a session object in the db
+		# # the session key is the primary key of the user object which is actually the user's email address
+		# session[BACKEND_SESSION_KEY] = settings.AUTHENTICATION_BACKENDS[0]
+		# session.save()
 		## to set a cookie we need to first visit the domain.
 		## 404 pages load the quickest!
 		self.browser.get(self.live_server_url + "/404_no_such_url/")

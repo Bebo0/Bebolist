@@ -1,10 +1,8 @@
 from django.conf import settings
-from django.contrib.auth import BACKEND_SESSION_KEY, SESSION_KEY, get_user_model
-from django.contrib.sessions.backends.db import SessionStore
 from .base import FunctionalTest
 from .server_tools import create_session_on_server
 from .management.commands.create_session import create_pre_authenticated_session
-
+import time
 """ Each client (IP) is given a unique session ID which is stored in a cookie and submitted with ever request.
 The server will store this ID somewhere (typically in the database) and then it
 can recognize each request that comes in as being from a particular client.
@@ -38,6 +36,7 @@ class MyListsTest(FunctionalTest):
 			# on our next visit to the site, the server should recognize us as a logged-in user.
 			path='/',
 		))
+		# time.sleep(2)
 
 	def test_logged_in_users_lists_are_saved_as_my_lists(self):
 		email = 'edith@example.com'

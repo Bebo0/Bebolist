@@ -1,5 +1,6 @@
 from fabric.api import run
 from fabric.context_managers import settings, shell_env
+import time
 """
 This file allows us to run fab commands from within Python
 """
@@ -20,6 +21,8 @@ def create_session_on_server(host, email):
 	with settings(host_string=f'totoman@{host}'):
 		env_vars = _get_server_env_vars(host)
 		with shell_env(**env_vars): # shell_env sets the environment for the next command
+			
 			session_key = run(f'{manage_dot_py} create_session {email}')
+			session_key = session_key[1:] # Fixes weird ass bug. Took me 2 hours ffs
 			return session_key.strip()
 

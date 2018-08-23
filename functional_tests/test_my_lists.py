@@ -2,7 +2,7 @@ from django.conf import settings
 from .base import FunctionalTest
 from .server_tools import create_session_on_server
 from .management.commands.create_session import create_pre_authenticated_session
-import time
+
 """ Each client (IP) is given a unique session ID which is stored in a cookie and submitted with ever request.
 The server will store this ID somewhere (typically in the database) and then it
 can recognize each request that comes in as being from a particular client.
@@ -18,6 +18,9 @@ class MyListsTest(FunctionalTest):
 	def create_pre_authenticated_session(self, email):
 		if self.staging_server:
 			session_key = create_session_on_server(self.staging_server, email)
+			print('\n\n\n\n')
+			print(session_key)
+			# session_key = create_session_on_server(self.staging_server, email)
 		else:
 			session_key = create_pre_authenticated_session(email)
 			

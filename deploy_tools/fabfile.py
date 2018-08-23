@@ -2,6 +2,7 @@ import random
 from fabric.contrib.files import append, exists
 from fabric.api import sudo, cd, env, local, run
 
+import os
 REPO_URL = 'https://github.com/Bebo0/TDD-Python-Web-Dev.git'
 
 def deploy():

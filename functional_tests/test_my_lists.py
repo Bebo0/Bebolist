@@ -2,7 +2,8 @@ from django.conf import settings
 from django.contrib.auth import BACKEND_SESSION_KEY, SESSION_KEY, get_user_model
 from django.contrib.sessions.backends.db import SessionStore
 from .base import FunctionalTest
-User = get_user_model()
+from .server_tools import create_session_on_server
+from .management.commands.create_session import create_pre_authenticated_session
 
 """ Each client (IP) is given a unique session ID which is stored in a cookie and submitted with ever request.
 The server will store this ID somewhere (typically in the database) and then it
@@ -33,7 +34,7 @@ class MyListsTest(FunctionalTest):
 		self.browser.get(self.live_server_url + "/404_no_such_url/")
 		self.browser.add_cookie(dict(
 			name=settings.SESSION_COOKIE_NAME,
-			value=session.session_key, # we then add a cookie to the browser that matches the session on the server.
+			value=session_key, # we then add a cookie to the browser that matches the session on the server.
 			# on our next visit to the site, the server should recognize us as a logged-in user.
 			path='/',
 		))
@@ -47,3 +48,23 @@ class MyListsTest(FunctionalTest):
 		self.create_pre_authenticated_session(email)
 		self.browser.get(self.live_server_url)
 		self.wait_to_be_logged_in(email)
+
+# Locally:
+# +-----------------------------------+       +-------------------------------------+
+# | MyListsTest                       |  -->  | .management.commands.create_session |
+# | .create_pre_authenticated_session |       |  .create_pre_authenticated_session  |
+# |            (locally)              |       |             (locally)               |
+# +-----------------------------------+       +-------------------------------------+
+# Against staging:
+# +-----------------------------------+       +-------------------------------------+
+# | MyListsTest                       |       | .management.commands.create_session |
+# | .create_pre_authenticated_session |       |  .create_pre_authenticated_session  |
+# |            (locally)              |       |            (on server)              |
+# +-----------------------------------+       +-------------------------------------+
+#             |                                                   ^
+#             v                                                   |
+# +----------------------------+     +--------+      +------------------------------+
+# | server_tools               | --> | fabric | -->  | ./manage.py create_session   |
+# | .create_session_on_server  |     |  "run" |      |   (on server, using .env)    |
+# |        (locally)           |     +--------+      +------------------------------+
+

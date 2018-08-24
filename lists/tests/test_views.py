@@ -12,6 +12,10 @@ from lists.models import Item, List
 
 from unittest import skip
 
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 # functional test from users's persepctive
 # unittest from programmer's perspective
 # TestCase is an augmented version of unittest.TestCase
@@ -211,11 +215,26 @@ class NewListTest(TestCase):
 		response = self.client.post('/lists/new', data={'text': ''})
 		self.assertIsInstance(response.context['form'], ItemForm)
 
+	def test_list_owner_is_saved_if_user_is_authenticated(self):
+		user = User.objects.create(email='a@b.com')
+		self.client.force_login(user) # force_login() is the way you get the test client to make requests with a logged-in user.
+		self.client.post('/lists/new', data={'text': 'new item'})
+		list_ = List.objects.first()
+		self.assertEqual(list_.owner, user)
+
 class MyListsTest(TestCase):
 
 	def test_my_lists_url_renders_my_lists_template(self):
+		User.objects.create(email='a@b.com')
 		response = self.client.get('/lists/users/a@b.com/')
 		self.assertTemplateUsed(response, 'my_lists.html')
+
+	def test_passes_correct_owner_to_template(self):
+		User.objects.create(email='wrong@owner.com')
+		correct_user = User.objects.create(email='a@b.com')
+		response = self.client.get('/lists/users/a@b.com/')
+		self.assertEqual(response.context['owner'], correct_user)
+
 # class NewItemTest(TestCase):
 
 # 	def test_can_save_a_POST_request_to_an_existing_list(self):

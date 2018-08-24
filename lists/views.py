@@ -5,6 +5,9 @@ from django.core.exceptions import ValidationError
 from lists.forms import ExistingListItemForm, ItemForm
 from lists.models import Item, List
 
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
 # We need to officially register our 'lists' app with Django. Therefore, need to add 'lists' to
 # INSTALLED_APPS in superlists/settings.py
 
@@ -49,7 +52,9 @@ def view_list(request, list_id):
 def new_list(request):
 	form = ItemForm(data=request.POST)
 	if form.is_valid(): # checks whether the form's data is a good or bad submission
-		list_ = List.objects.create()
+		list_ = List()
+		list_.wner = request.user
+		list_.save()
 		form.save(for_list=list_)
 		# Item.objects.create(text=request.POST['text'], list=list_)
 		return redirect(list_)
@@ -57,7 +62,8 @@ def new_list(request):
 		return render(request, 'home.html', {"form": form})
 
 def my_lists(request, email):
-	return render(request, 'my_lists.html')
+	owner = User.objects.get(email=email)
+	return render(request, 'my_lists.html', {'owner': owner})
 
 	# return redirect(list_) # we can do this because every list item is associated with a URL (an absolute URL)
 	# return redirect(f'/lists/{list_.id}/')

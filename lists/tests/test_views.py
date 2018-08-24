@@ -29,7 +29,6 @@ User = get_user_model()
 # request (referred to as resolving the URL)
 # 3) The view function processes the request and returns an HTTP response
 		
-
 class HomePageTest(TestCase):
 
 	# def test_root_url_resolves_to_home_page_view(self):

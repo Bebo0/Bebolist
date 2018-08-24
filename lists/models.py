@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+
+from django.conf import settings
 # Create your models here.
 
 # inherits from models.Model
@@ -10,7 +12,7 @@ from django.core.urlresolvers import reverse
 # To clean DB, run rm db.sqlite3 then python manage.py migrate --noinput
 
 class List(models.Model):
-
+	owner = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True) # optional
 	# Model objects are often associated with a particular URL. get_absolute_url
 	# says what page displays the item.
 	def get_absolute_url(self):

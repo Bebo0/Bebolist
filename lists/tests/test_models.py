@@ -2,10 +2,12 @@ from django.test import TestCase
 from django.urls import resolve
 from django.http import HttpRequest
 from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
 
 from lists.views import home_page
 from lists.models import Item, List
 
+User = get_user_model()
 # functional test from users's persepctive
 # unittest from programmer's perspective
 # TestCase is an augmented version of unittest.TestCase
@@ -23,6 +25,15 @@ class ListModelTest(TestCase):
 	def test_get_absolute(self):
 		list_ = List.objects.create()
 		self.assertEqual(list_.get_absolute_url(), f'/lists/{list_.id}/')
+
+	def test_lists_can_have_owners(self):
+		user = User.objects.create(email='a@b.com')
+		list_ = List.objects.create(owner=user)
+		self.assertIn(list_, user.list_set.all())
+
+	def test_list_owner_is_optional(self):
+		List.objects.create() # Should not raise
+
 
 class ItemModelTest(TestCase):
 

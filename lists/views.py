@@ -53,7 +53,8 @@ def new_list(request):
 	form = ItemForm(data=request.POST)
 	if form.is_valid(): # checks whether the form's data is a good or bad submission
 		list_ = List()
-		list_.wner = request.user
+		if request.user.is_authenticated:
+			list_.owner = request.user
 		list_.save()
 		form.save(for_list=list_)
 		# Item.objects.create(text=request.POST['text'], list=list_)

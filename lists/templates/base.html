@@ -43,6 +43,9 @@ can see something on the page.-->
 				<div class="container-fluid">
 					<a class="navbar-brand" href="/">Bebolist</a>
 					{% if user.email %}
+						<ul class="nav navbar-nav navbar-left">
+							<li><a href="{# url 'my_lists' user.email %}">My lists</a></li>
+						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="navbar-text">Logged in as {{ user.email }}</li>
 							<li><a href="{% url 'logout' %}">Log out</a></li>
@@ -84,7 +87,7 @@ can see something on the page.-->
 							{% csrf_token %} 
 							{% if form.errors %}
 								<div class="form-group has-error">
-									<span class = "help-block">{{ form.text.errors }}</span>
+									<div class = "help-block">{{ form.text.errors }}</div>
 								</div>
 							{% endif %}
 						</form>	
@@ -98,6 +101,14 @@ can see something on the page.-->
 					{% endblock %}
 				</div>
 			</div>
+
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					{% block extra_content %}
+					{% endblock %}
+				</div>
+			</div>
+
 
 		</div>
 		<script src="/static/jquery-3.3.1.js"></script>

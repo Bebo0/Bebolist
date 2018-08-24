@@ -56,6 +56,9 @@ def new_list(request):
 	else:
 		return render(request, 'home.html', {"form": form})
 
+def my_lists(request, email):
+	return render(request, 'my_lists.html')
+
 	# return redirect(list_) # we can do this because every list item is associated with a URL (an absolute URL)
 	# return redirect(f'/lists/{list_.id}/')
 

@@ -6,7 +6,7 @@ list.name prints out the name of list, which is specified as the text of its fir
 
 {% block header_text %}My Lists{% endblock %}
 
-{% block list_form %}
+{% block extra_content %}
 	<h2>{{ owner.email }}'s lists</h2>
 	<ul>
 		{% for list in owner.list_set.all %}

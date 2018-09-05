@@ -5,5 +5,12 @@ window.Superlists.initialize = function () {
 	$('input[name="text"]').on('keypress', function () {
 		$('.has-error').hide();
 	});
-};
 
+	
+};
+window.onload = function () {
+	var input = document.getElementById('id_text');
+	input.focus();
+	input.select();
+
+};

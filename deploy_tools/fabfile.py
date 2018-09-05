@@ -37,7 +37,9 @@ def _create_or_update_dotenv():
 		new_secret = ''.join(random.SystemRandom().choices('abcdefghijklmnopqrstuvwxyz0123456789', k=50))
 		append('.env', f'DJANGO_SECRET_KEY={new_secret}', use_sudo=True)
 	email_password = os.environ['EMAIL_PASSWORD']
-	append('env', f'EMAIL_PASSWORD={email_password}')
+	append('env', f'EMAIL_PASSWORD={email_password}', use_sudo=True)
+	yahoo_password = os.environ['YAHOO_PASSWORD']
+	append('env', f'YAHOO_PASSWORD={yahoo_password}', use_sudo=True)
 
 def _update_static_files():
 	sudo('./virtualenv/bin/python manage.py collectstatic --noinput')

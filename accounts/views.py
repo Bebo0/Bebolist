@@ -10,16 +10,17 @@ def send_login_email(request):
 	token = Token.objects.create(email=email)
 	url = request.build_absolute_uri( # allows us to build a full URL 
 		reverse('login') + '?token=' + str(token.uid)
-		)
-	message_body = f'Use this link to log in: \n\n{url}'
+	)
+	message_body = f'Use this link to log in:\n\n{url}'
 	send_mail(
 		'Your login link for Bebolist',
 		message_body,
 		'noreply@bebolist',
 		[email]
-		)
+	)
 	messages.success(request, # The green highlighted message on the page
-		"Check your email, we've sent you a link you can use to log in.")
+		"Check your email, we've sent you a link you can use to log in."
+	)
 	return redirect('/')
 
 def login(request):

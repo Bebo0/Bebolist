@@ -8,7 +8,7 @@ window.Superlists.initialize = function () {
 
 	
 };
-window.onload = function () {
+window.Superlists.onload = function () {
 	var input = document.getElementById('id_text');
 	input.focus();
 	input.select();

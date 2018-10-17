@@ -113,6 +113,9 @@ can see something on the page.-->
 
 		</div>
 		<script src="/static/jquery-3.3.1.js"></script>
+
+		{% block scripts %}
+
 		<script>
 			// the .ready allows us to specify a function to execute when the
 			// DOM is fully loaded.
@@ -120,6 +123,8 @@ can see something on the page.-->
 				window.Superlists.initialize();
 			})
 		</script>
+		{% endblock scripts %}
+		
 		<script> initialize() </script>
 	</body>
 </html>

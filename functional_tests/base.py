@@ -39,15 +39,6 @@ def wait(fn):
 
 # class NewVisitorTest(LiveServerTestCase):
 class FunctionalTest(StaticLiveServerTestCase):
-	
-	def create_pre_authenticated_session(self, email):
-		if self.staging_server:
-			session_key = create_session_on_server(self.staging_server, email)
-			print('\n\n\n\n')
-			print(session_key)
-			# session_key = create_session_on_server(self.staging_server, email)
-		else:
-			session_key = create_pre_authenticated_session(email)
 
 	def setUp(self):
 		self.browser = webdriver.Firefox()

@@ -19,25 +19,12 @@ every test -->
       <input name="text" />
       <div class="has-error">Error.text</div>
     </form>
-    <table id="id_list_table"</table> 
   </div>
-
   <script src="../jquery-3.3.1.js"></script>
   <script src="../list.js"></script>
   <script src="qunit-2.6.1.js"></script>
-  <script src="sinon-6.3.5.js"></script>
 
   <script>
-/* global sinon */
-
-    var server;
-    QUnit.testStart(function () {
-      server = sinon.fakeServer.create(); // testStart and testDone are the QUnit equivalents of setUp and tearDown. We use them to tell Sinon to start up its Ajax testing tool.
-    });
-    QUnit.testDone(function () {
-      server.restore();
-    });
-
 
     QUnit.test("errors should be hidden on keypress", function (assert) {
       // assert.equal($('.has-error') vbb .is(':visible'), true);
@@ -54,41 +41,6 @@ every test -->
       window.Superlists.initialize()
       assert.equal($('.has-error').is(':visible'), true);
     });
-
-    // Ajax test
-    QUnit.test("should get items by ajax on initialize", function (assert) {
-      var url = '/getitems/';
-      window.Superlists.initialize(url);
-
-      assert.equal(server.requests.length, 1);
-      var request = server.requests[0];
-      assert.equal(request.url, url);
-      assert.equal(request.method, 'GET');
-    });
-
-    QUnit.test("should fill in lists table from ajax response",
-      function (assert) {
-        var url = '/getitems/';
-        var responseData = [
-        {'id': 101, 'text': 'item 1 text'},
-        {'id': 102, 'text': 'item 2 text'},
-      ];
-      server.respondWith('GET', url, [
-        200, {"Content-Type": "application/json"},
-        JSON.stringify(responseData) // We set up some response data for Sinon to use, telling it what status code, headers, and importantly what kind of response JSON we want to simulate coming from the server.
-        ]);
-      window.Superlists.initialize(url); // Then we call the function under test
-
-      server.respond(); // Kicks off the async part of the Ajax loop - that is, any callback we've assigned to deal with the response.
-
-      var rows = $('#id_list_table tr'); // Now we check whether our Ajax callback has actually populated our table with new list rows.
-      assert.equal(rows.length, 2);
-      var row1 = $('#id_list_table tr:first-child td');
-      assert.equal(row1.text(), '1: item 1 text');
-      var row2 = $('#id_list_table tr:last-child td');
-      assert.equal(row2.text(), '2: item 2 text');
-
-      });
 
   </script>
 </body>

@@ -11,17 +11,3 @@
 		{% endfor %}
 	</table>
 {% endblock %}
-
-{% block scripts %}
-<script>
-	$(document).ready(function () {
-		window.SuperLists.initalize({
-			listApiUrl: "{% url 'list-detail' list.id %}",
-			itemsApiUrl: "{% url 'item-list' %}",
-			listId: {{ list.id }}, 
-		});
-
-	});
-
-	</script>
-{% endblock scripts %}
